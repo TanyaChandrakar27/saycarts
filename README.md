@@ -122,7 +122,7 @@ npx serve .
 ### Option 3: Deploy to GitHub Pages
 1. Push to a GitHub repo
 2. Go to Settings → Pages → Deploy from `main` branch
-3. Your app is live at `https://tanyachandrakar27.github.io/saycarts/`
+3. Your app is live at `https://username.github.io/saycarts`
 
 ---
 
