@@ -2,8 +2,8 @@
 
 > **A voice-controlled multi-cart shopping list with AI-powered suggestions, multilingual support, and offline capability.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-7c3aed?style=for-the-badge)](https://your-username.github.io/saycarts)
-[![PWA](https://img.shields.io/badge/PWA-Installable-06b6d4?style=for-the-badge)](https://your-username.github.io/saycarts)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-7c3aed?style=for-the-badge)](https://tanyachandrakar27.github.io/saycarts/)
+[![PWA](https://img.shields.io/badge/PWA-Installable-06b6d4?style=for-the-badge)](https://tanyachandrakar27.github.io/saycarts/)
 [![Offline](https://img.shields.io/badge/Works-Offline-10b981?style=for-the-badge)](#)
 
 ---
@@ -122,7 +122,7 @@ npx serve .
 ### Option 3: Deploy to GitHub Pages
 1. Push to a GitHub repo
 2. Go to Settings → Pages → Deploy from `main` branch
-3. Your app is live at `https://username.github.io/saycarts`
+3. Your app is live at `https://tanyachandrakar27.github.io/saycarts/`
 
 ---
 
