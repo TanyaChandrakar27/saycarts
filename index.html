@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SayCarts — Voice & Multi-Cart Shopping Assistant</title>
+  <meta name="description" content="Voice-powered multi-cart shopping assistant with natural speech recognition and smart suggestions.">
+  <meta name="theme-color" content="#FAF6F0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SayCarts">
+  <!-- Open Graph -->
+  <meta property="og:title" content="SayCarts — Voice & Multi-Cart Shopping Assistant">
+  <meta property="og:description" content="Manage multiple shopping carts effortlessly with your voice and smart recommendations.">
+  <meta property="og:type" content="website">
+  <link rel="manifest" href="manifest.json">
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=maroon_6.0">
+</head>
+<body>
+
+<!-- Ambient Subtle Lighting -->
+<div class="ambient-glow ambient-glow-1" aria-hidden="true"></div>
+<div class="ambient-glow ambient-glow-2" aria-hidden="true"></div>
+
+<!-- ═══ App Shell ════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="header-left">
+      <a class="header-logo" href="#" aria-label="SayCarts home">
+        <div class="header-logo-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </div>
+        <div class="header-logo-text-group">
+          <span class="header-logo-text">SayCarts</span>
+          <span class="header-subtext">Smart Shopping Assistant</span>
+        </div>
+      </a>
+    </div>
+
+    <div id="status-pill" class="status-pill" role="status" aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="status-text">Ready</span>
+    </div>
+
+    <div class="header-actions">
+      <button id="btn-sound-toggle" class="btn-icon" title="Toggle Sound Feedback" aria-label="Toggle Sound">
+        🔊
+      </button>
+      <button id="btn-commands" class="btn-icon" title="Voice Commands Cheatsheet" aria-label="Show voice commands">
+        💡
+      </button>
+      <button id="btn-export" class="btn-icon" title="Export Cart" aria-label="Export cart">
+        📤
+      </button>
+      <button id="btn-settings" class="btn-icon" title="Settings" aria-label="Open settings">
+        ⚙️
+      </button>
+    </div>
+  </header>
+
+  <!-- Cart Tabs -->
+  <nav class="cart-tabs-wrapper" aria-label="Shopping carts">
+    <div class="cart-tabs-scroll" id="cart-tabs" role="tablist">
+      <!-- Tabs rendered by JS -->
+      <button class="cart-add-btn" id="btn-add-cart" aria-label="Create new cart">
+        ＋ New Cart
+      </button>
+    </div>
+  </nav>
+
+  <!-- View Tabs -->
+  <div class="view-tabs" role="tablist" aria-label="App views">
+    <button class="view-tab active" id="tab-list" data-view="list" role="tab" aria-selected="true" aria-controls="list-panel">📋 My List</button>
+    <button class="view-tab" id="tab-browse" data-view="browse" role="tab" aria-selected="false" aria-controls="browse-panel">🏪 Browse Products</button>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+
+    <!-- Shopping List Panel -->
+    <main class="list-panel" id="list-panel">
+
+      <!-- Cart Header -->
+      <div class="cart-header">
+        <div class="cart-header-left">
+          <h1 class="cart-title">
+            <span id="cart-emoji" aria-hidden="true">🛒</span>
+            <span class="cart-title-text" id="cart-name">Weekly Groceries</span>
+          </h1>
+          <div class="cart-progress-bar-wrap">
+            <div class="cart-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="cart-progress-fill" id="progress-fill" style="width:0%"></div>
+            </div>
+            <span class="cart-progress-label" id="progress-label">0 / 0 items</span>
+          </div>
+        </div>
+        <div class="cart-header-actions">
+          <button id="btn-read-cart" class="btn-icon" title="Read cart aloud (TTS Voice Readback)" aria-label="Read cart aloud">🔊</button>
+          <button id="btn-merge-cart" class="btn-icon" title="Merge into another cart" aria-label="Merge cart">🔀</button>
+          <button id="btn-clear-cart" class="btn-icon" title="Clear all items" aria-label="Clear cart">🗑️</button>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input
+          type="text"
+          id="search-input"
+          placeholder='Search items... or say "Find milk"'
+          aria-label="Search items"
+          autocomplete="off"
+        >
+        <button id="btn-clear-search" class="hidden" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;" aria-label="Clear search">✕</button>
+      </div>
+
+      <!-- Items List -->
+      <div id="items-container" aria-label="Shopping list items" aria-live="polite">
+        <!-- Groups rendered by JS -->
+      </div>
+
+    </main>
+
+    <!-- Suggestions Sidebar (desktop) -->
+    <aside class="suggestions-panel" id="suggestions-panel" aria-label="Smart suggestions">
+      <div class="suggestion-card" id="ai-suggestions-card">
+        <div class="suggestion-card-title">✨ AI Suggestions</div>
+        <div id="ai-suggestions-content">
+          <p style="color:var(--text-muted);font-size:13px;">Add items to your cart to get personalized suggestions.</p>
+        </div>
+      </div>
+
+      <div class="suggestion-card" id="seasonal-card">
+        <div class="suggestion-card-title">🌿 In Season Now</div>
+        <div id="seasonal-content"></div>
+      </div>
+
+      <div class="suggestion-card" id="substitutes-card" class="hidden">
+        <div class="suggestion-card-title">🔄 Substitutes</div>
+        <div id="substitutes-content"></div>
+      </div>
+
+      <div class="suggestion-card" id="frequent-card">
+        <div class="suggestion-card-title">🔁 Frequently With These</div>
+        <div id="frequent-content"></div>
+      </div>
+    </aside>
+
+  </div><!-- /.main-layout -->
+
+  <!-- ═══ Browse Panel ═══════════════════════════════════════════════ -->
+  <div id="browse-panel" class="browse-panel hidden" role="tabpanel" aria-labelledby="tab-browse">
+
+    <!-- Browse Search -->
+    <div class="browse-search-wrap">
+      <div class="search-bar browse-search-bar" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="browse-search-input" placeholder='Search 100+ products... or say "Find chai under ₹100"' aria-label="Search products" autocomplete="off">
+        <button id="btn-clear-browse-search" class="hidden" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;" aria-label="Clear search">✕</button>
+      </div>
+      <div id="browse-price-badge" class="hidden price-filter-badge">
+        <span id="browse-price-label">Under ₹100</span>
+        <button id="btn-clear-price" aria-label="Clear price filter">✕</button>
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="browse-categories-wrap" aria-label="Filter by category">
+      <button class="category-pill active" data-cat="" aria-pressed="true">All Products</button>
+      <!-- More pills rendered by JS -->
+    </div>
+
+    <!-- Results Count -->
+    <div class="browse-results-meta">
+      <span id="browse-count">Showing all products</span>
+      <select id="browse-sort" aria-label="Sort products">
+        <option value="popular">⭐ Most Popular</option>
+        <option value="price-asc">💰 Price: Low to High</option>
+        <option value="price-desc">💰 Price: High to Low</option>
+        <option value="rating">⭐ Top Rated</option>
+        <option value="name">🔤 Name A–Z</option>
+      </select>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="product-grid" class="product-grid" role="list" aria-label="Product catalog">
+      <!-- Product cards rendered by JS -->
+    </div>
+
+  </div><!-- /#browse-panel -->
+
+  <!-- Bottom Bar / Voice Dock -->
+  <div class="bottom-bar" role="toolbar" aria-label="Voice controls">
+    <div id="transcript-display" class="transcript-display" aria-live="polite" aria-atomic="true">
+      Tap the microphone or press Space to speak...
+    </div>
+    <div class="bottom-controls">
+      <!-- Language Select -->
+      <div class="lang-select-wrap">
+        <span class="lang-icon" aria-hidden="true">🌐</span>
+        <select id="lang-select" class="lang-select" aria-label="Voice language">
+          <!-- Options rendered by JS -->
+        </select>
+      </div>
+
+      <!-- Waveform Visualizer -->
+      <div class="waveform" id="waveform" aria-hidden="true">
+        <div class="waveform-bar" style="--i:1"></div>
+        <div class="waveform-bar" style="--i:2"></div>
+        <div class="waveform-bar" style="--i:3"></div>
+        <div class="waveform-bar" style="--i:4"></div>
+        <div class="waveform-bar" style="--i:5"></div>
+        <div class="waveform-bar" style="--i:6"></div>
+        <div class="waveform-bar" style="--i:7"></div>
+        <div class="waveform-bar" style="--i:8"></div>
+        <div class="waveform-bar" style="--i:9"></div>
+        <div class="waveform-bar" style="--i:10"></div>
+        <div class="waveform-bar" style="--i:11"></div>
+        <div class="waveform-bar" style="--i:12"></div>
+      </div>
+
+      <!-- Professional Mic Button -->
+      <div class="mic-btn-wrap">
+        <button id="mic-btn" class="mic-btn" aria-label="Start voice command" aria-pressed="false">
+          <svg class="mic-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Type Input -->
+      <button id="btn-type-input" class="type-input-btn" title="Type a command instead" aria-label="Type command">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="M6 8h.01"/><path d="M10 8h.01"/><path d="M14 8h.01"/><path d="M18 8h.01"/>
+          <path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/>
+          <path d="M7 16h10"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ═══ Modals ═══════════════════════════════════════════════════════ -->
+
+<!-- New Cart Modal -->
+<div class="modal-overlay hidden" id="modal-new-cart" role="dialog" aria-modal="true" aria-labelledby="modal-new-cart-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-new-cart-title">✨ New Cart</h2>
+      <button class="modal-close" data-close="modal-new-cart" aria-label="Close modal">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="new-cart-name">Cart Name</label>
+      <input type="text" id="new-cart-name" class="form-input"
+        placeholder='e.g., "Costco Run", "Party Supplies"'
+        maxlength="30" aria-required="true">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Cart Color</label>
+      <div class="color-picker" id="cart-color-picker" role="group" aria-label="Choose cart color">
+        <!-- Swatches rendered by JS -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Cart Emoji</label>
+      <div class="emoji-picker" id="cart-emoji-picker" role="group" aria-label="Choose cart emoji">
+        <!-- Swatches rendered by JS -->
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-ghost" data-close="modal-new-cart" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" id="btn-create-cart-confirm" style="flex:2">
+        Create Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay hidden" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-settings-title">⚙️ Settings</h2>
+      <button class="modal-close" data-close="modal-settings" aria-label="Close modal">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="setting-lang">Default Language</label>
+      <select id="setting-lang" class="form-input" style="cursor:pointer">
+        <!-- Options rendered by JS -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="setting-gemini">
+        Gemini AI Key
+        <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:4px;">(optional — get free key at aistudio.google.com)</span>
+      </label>
+      <input type="password" id="setting-gemini" class="form-input"
+        placeholder="AIza..." autocomplete="off">
+      <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">Without a key, smart suggestions still work using built-in rules.</p>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-ghost" data-close="modal-settings" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-settings" style="flex:2">Save Settings</button>
+    </div>
+
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">
+      <p style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;">
+        SayCarts v1.0 · Built with ❤️ · Works offline<br>
+        Voice recognition powered by Web Speech API
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Voice Commands Cheatsheet Modal -->
+<div class="modal-overlay hidden" id="modal-commands" role="dialog" aria-modal="true" aria-labelledby="modal-commands-title">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-commands-title">💡 Voice Commands</h2>
+      <button class="modal-close" data-close="modal-commands" aria-label="Close modal">✕</button>
+    </div>
+    <div class="commands-grid">
+      <div class="command-item">
+        <div class="command-example">"Read my cart" 🔊</div>
+        <div class="command-desc">TTS reads remaining items aloud</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Add 2 bottles of milk"</div>
+        <div class="command-desc">Add item with quantity & price</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"I need eggs"</div>
+        <div class="command-desc">Natural language add</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Add milk to Costco cart"</div>
+        <div class="command-desc">Add to specific cart</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Remove apples"</div>
+        <div class="command-desc">Remove an item</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Check milk"</div>
+        <div class="command-desc">Mark item as bought</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"I got eggs"</div>
+        <div class="command-desc">Natural language check</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Create cart Party"</div>
+        <div class="command-desc">New shopping cart</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Switch to Costco"</div>
+        <div class="command-desc">Change active cart</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Merge Party into Weekly"</div>
+        <div class="command-desc">Combine two carts</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Clear the cart"</div>
+        <div class="command-desc">Remove all items</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Find organic apples"</div>
+        <div class="command-desc">Search all carts</div>
+      </div>
+      <div class="command-item">
+        <div class="command-example">"Undo"</div>
+        <div class="command-desc">Undo last action</div>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:12px;color:var(--text-muted);text-align:center;">
+      Works in English, Spanish, French, German, Hindi, Chinese, Portuguese & Arabic
+    </p>
+  </div>
+</div>
+
+<!-- Type Input Modal -->
+<div class="modal-overlay hidden" id="modal-type-input" role="dialog" aria-modal="true" aria-labelledby="modal-type-title">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-type-title">⌨️ Type a Command</h2>
+      <button class="modal-close" data-close="modal-type-input" aria-label="Close modal">✕</button>
+    </div>
+    <div class="form-group">
+      <input type="text" id="type-input-field" class="form-input"
+        placeholder='e.g., "Add 2 litres of milk"'
+        autocomplete="off">
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ghost" data-close="modal-type-input" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" id="btn-submit-type-input" style="flex:2">Execute</button>
+    </div>
+  </div>
+</div>
+
+<!-- Merge Cart Modal -->
+<div class="modal-overlay hidden" id="modal-merge" role="dialog" aria-modal="true" aria-labelledby="modal-merge-title">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-merge-title">🔀 Merge Cart</h2>
+      <button class="modal-close" data-close="modal-merge" aria-label="Close modal">✕</button>
+    </div>
+    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:18px;">
+      Merge <strong id="merge-source-name" style="color:var(--text-primary)"></strong> into:
+    </p>
+    <div class="form-group">
+      <select id="merge-target-select" class="form-input" style="cursor:pointer">
+        <!-- Options rendered by JS -->
+      </select>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ghost" data-close="modal-merge" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" id="btn-confirm-merge" style="flex:2">Merge</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal-overlay hidden" id="modal-export" role="dialog" aria-modal="true" aria-labelledby="modal-export-title">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-export-title">📤 Export Cart</h2>
+      <button class="modal-close" data-close="modal-export" aria-label="Close modal">✕</button>
+    </div>
+    <textarea id="export-text" readonly style="
+      width:100%;height:220px;background:var(--bg-input);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-secondary);font-size:13px;
+      font-family:monospace;padding:12px;resize:none;outline:none;line-height:1.6;
+    " aria-label="Exported cart text"></textarea>
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <button class="btn btn-ghost" data-close="modal-export" style="flex:1">Close</button>
+      <button class="btn btn-primary" id="btn-copy-export" style="flex:2">📋 Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Scripts ══════════════════════════════════════════════════════ -->
+<script src="categories.js?v=strict_10.0"></script>
+<script src="products.js?v=strict_10.0"></script>
+<script src="voice.js?v=strict_10.0"></script>
+<script src="suggestions.js?v=strict_10.0"></script>
+<script src="app.js?v=strict_10.0"></script>
+<script src="ui.js?v=strict_10.0"></script>
+
+</body>
+</html>
