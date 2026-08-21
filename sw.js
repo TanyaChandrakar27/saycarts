@@ -3,18 +3,18 @@
  * Enables offline functionality and fast loading via caching
  */
 
-const CACHE_NAME = 'saycarts-strict-v10.0';
+const CACHE_NAME = 'saycarts-strict-v10.1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/voice.js',
-  '/suggestions.js',
-  '/categories.js',
-  '/products.js',
-  '/ui.js',
-  '/manifest.json'
+  './',
+  './index.html',
+  './style.css',
+  './app.js',
+  './voice.js',
+  './suggestions.js',
+  './categories.js',
+  './products.js',
+  './ui.js',
+  './manifest.json'
 ];
 
 // Install: cache all static assets
@@ -65,7 +65,7 @@ self.addEventListener('fetch', event => {
       })
       .catch(() => caches.match(event.request).then(cached => {
         if (cached) return cached;
-        if (event.request.mode === 'navigate') return caches.match('/index.html');
+        if (event.request.mode === 'navigate') return caches.match('./index.html');
       }))
   );
 });

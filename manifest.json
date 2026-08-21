@@ -2,7 +2,7 @@
   "name": "SayCarts — Voice & Multi-Cart Shopping",
   "short_name": "SayCarts",
   "description": "Voice-controlled multi-cart shopping manager with smart AI suggestions",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#FAF6F0",
   "theme_color": "#83182B",
@@ -28,7 +28,7 @@
       "name": "New Cart",
       "short_name": "New Cart",
       "description": "Create a new shopping cart",
-      "url": "/?action=new-cart",
+      "url": "./?action=new-cart",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
