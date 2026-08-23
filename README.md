@@ -2,8 +2,8 @@
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Experience_SayCarts-8b0000?style=for-the-badge&logo=googlechrome&logoColor=white)](https://tanyachandrakar27.github.io/saycarts/)
-[![PWA Installable](https://img.shields.io/badge/📱_PWA-Installable_%26_Offline-059669?style=for-the-badge&logo=pwa&logoColor=white)](https://tanyachandrakar27.github.io/saycarts/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Experience_SayCarts-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://saycarts.vercel.app)
+[![PWA Installable](https://img.shields.io/badge/📱_PWA-Installable_%26_Offline-059669?style=for-the-badge&logo=pwa&logoColor=white)](https://saycarts.vercel.app)
 [![Zero Dependencies](https://img.shields.io/badge/⚡_Zero_Dependencies-Pure_Vanilla_JS-d97706?style=for-the-badge&logo=javascript&logoColor=white)](#technical-architecture)
 [![License: MIT](https://img.shields.io/badge/📄_License-MIT-3b82f6?style=for-the-badge)](#license)
 
@@ -11,7 +11,7 @@
   <b>A next-generation, voice-operated multi-cart shopping operating system with dual-engine AI recommendations, offline Web Speech NLP, bidirectional TTS readback, and zero external runtime dependencies.</b>
 </p>
 
-[✨ Live Demo](https://tanyachandrakar27.github.io/saycarts/) • [🎤 Voice Commands](#voice-command-matrix) • [🏗️ Architecture](#technical-architecture) • [💡 Key Advantages](#why-saycarts-stands-out) • [⚡ Quick Start](#quick-start)
+[✨ Live Vercel Demo](https://saycarts.vercel.app) • [🎤 Voice Commands](#voice-command-matrix) • [🏗️ Architecture](#technical-architecture) • [💡 Key Advantages](#why-saycarts-stands-out) • [⚡ Quick Start](#quick-start)
 
 ---
 
@@ -161,9 +161,11 @@ graph TD
 <a id="quick-start"></a>
 ## ⚡ Quick Start & Deployment Guide
 
-### Option 1: Live Web App (Instant)
-Access the live production deployment immediately:
-👉 **[https://tanyachandrakar27.github.io/saycarts/](https://tanyachandrakar27.github.io/saycarts/)**
+### Option 1: Live Production Web App (Vercel)
+Access the live deployment immediately:
+👉 **[https://saycarts.vercel.app](https://saycarts.vercel.app)**
+
+*(Backup Mirror: [https://tanyachandrakar27.github.io/saycarts/](https://tanyachandrakar27.github.io/saycarts/))*
 
 ### Option 2: Run Locally in 5 Seconds (No npm install required)
 Since SayCarts uses native Web Standards, you don't need `node_modules` or build tools:
@@ -216,7 +218,7 @@ SayCarts works 100% out-of-the-box using its built-in offline intelligence graph
 
 Developed with passion by **Tanya Chandrakar** for the **Unthinkable Voice Command Project Challenge**.
 
-* **Live Demo:** [https://tanyachandrakar27.github.io/saycarts/](https://tanyachandrakar27.github.io/saycarts/)
+* **Live Demo (Vercel):** [https://saycarts.vercel.app](https://saycarts.vercel.app)
 * **GitHub Repo:** [https://github.com/TanyaChandrakar27/saycarts](https://github.com/TanyaChandrakar27/saycarts)
 
 ---
