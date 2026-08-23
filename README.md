@@ -4,19 +4,20 @@
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Experience_SayCarts-8b0000?style=for-the-badge&logo=googlechrome&logoColor=white)](https://tanyachandrakar27.github.io/saycarts/)
 [![PWA Installable](https://img.shields.io/badge/📱_PWA-Installable_%26_Offline-059669?style=for-the-badge&logo=pwa&logoColor=white)](https://tanyachandrakar27.github.io/saycarts/)
-[![Zero Dependencies](https://img.shields.io/badge/⚡_Zero_Dependencies-Pure_Vanilla_JS-d97706?style=for-the-badge&logo=javascript&logoColor=white)](#-technical-architecture)
-[![License: MIT](https://img.shields.io/badge/📄_License-MIT-3b82f6?style=for-the-badge)](#-license)
+[![Zero Dependencies](https://img.shields.io/badge/⚡_Zero_Dependencies-Pure_Vanilla_JS-d97706?style=for-the-badge&logo=javascript&logoColor=white)](#technical-architecture)
+[![License: MIT](https://img.shields.io/badge/📄_License-MIT-3b82f6?style=for-the-badge)](#license)
 
 <p align="center">
   <b>A next-generation, voice-operated multi-cart shopping operating system with dual-engine AI recommendations, offline Web Speech NLP, bidirectional TTS readback, and zero external runtime dependencies.</b>
 </p>
 
-[✨ Live Application](https://tanyachandrakar27.github.io/saycarts/) • [🎤 Voice Commands](#-voice-command-matrix) • [🏗️ Architecture](#-technical-architecture) • [💡 Why SayCarts Stands Out](#-why-saycarts-stands-out) • [⚡ Quick Start](#-quick-start)
+[✨ Live Demo](https://tanyachandrakar27.github.io/saycarts/) • [🎤 Voice Commands](#voice-command-matrix) • [🏗️ Architecture](#technical-architecture) • [💡 Key Advantages](#why-saycarts-stands-out) • [⚡ Quick Start](#quick-start)
 
 ---
 
 </div>
 
+<a id="problem-statement"></a>
 ## 🌟 Executive Summary & Problem Statement
 
 Most shopping list applications are built around a flawed assumption: **that users maintain only a single, flat list.** 
@@ -27,6 +28,7 @@ In reality, everyday consumers juggle multiple distinct shopping contexts simult
 
 ---
 
+<a id="why-saycarts-stands-out"></a>
 ## 🏆 Why SayCarts Stands Out (Competitive Matrix)
 
 | Feature / Capability | Standard Shopping Lists (Keep, AnyList) | Smart Voice Assistants (Alexa, Siri) | 🛒 **SayCarts** |
@@ -43,6 +45,7 @@ In reality, everyday consumers juggle multiple distinct shopping contexts simult
 
 ---
 
+<a id="features"></a>
 ## 🚀 Key Architectural & Product Features
 
 ### 🎙️ 1. Zero-Latency Natural Language Voice Pipeline
@@ -94,6 +97,7 @@ In reality, everyday consumers juggle multiple distinct shopping contexts simult
 
 ---
 
+<a id="voice-command-matrix"></a>
 ## 🎤 Voice Command Matrix
 
 | Spoken Voice Command | Intent Classification | Engine Action Executed |
@@ -114,6 +118,7 @@ In reality, everyday consumers juggle multiple distinct shopping contexts simult
 
 ---
 
+<a id="technical-architecture"></a>
 ## 🏗️ Technical Architecture & File Directory
 
 SayCarts is intentionally architected with **Zero Framework Overhead** (Pure HTML5, CSS3, and ES6+ JavaScript). This guarantees instant load times, zero compilation lag, and effortless code review for recruiters and evaluators.
@@ -153,6 +158,7 @@ graph TD
 
 ---
 
+<a id="quick-start"></a>
 ## ⚡ Quick Start & Deployment Guide
 
 ### Option 1: Live Web App (Instant)
@@ -183,6 +189,7 @@ npx serve .
 
 ---
 
+<a id="gemini-ai"></a>
 ## ⚙️ Enabling Optional Generative AI (Gemini Flash)
 
 SayCarts works 100% out-of-the-box using its built-in offline intelligence graph. If you want to enable deep generative suggestions:
@@ -194,6 +201,7 @@ SayCarts works 100% out-of-the-box using its built-in offline intelligence graph
 
 ---
 
+<a id="benchmarks"></a>
 ## 🔒 Privacy & Performance Benchmarks
 
 * **Zero Tracking**: 100% client-side execution. Your shopping lists and voice audio are never sent to a private storage server.
@@ -203,6 +211,7 @@ SayCarts works 100% out-of-the-box using its built-in offline intelligence graph
 
 ---
 
+<a id="author"></a>
 ## 👩‍💻 Author & Project Context
 
 Developed with passion by **Tanya Chandrakar** for the **Unthinkable Voice Command Project Challenge**.
@@ -212,6 +221,7 @@ Developed with passion by **Tanya Chandrakar** for the **Unthinkable Voice Comma
 
 ---
 
+<a id="license"></a>
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
