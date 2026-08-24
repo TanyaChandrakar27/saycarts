@@ -1,67 +1,80 @@
-# 🛒 SayCarts — Voice-First Multi-Cart Shopping Assistant
+# SayCarts — Voice-First Multi-Cart Shopping Assistant
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Experience_SayCarts-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://saycarts.vercel.app)
-[![PWA Installable](https://img.shields.io/badge/📱_PWA-Installable_%26_Offline-059669?style=for-the-badge&logo=pwa&logoColor=white)](https://saycarts.vercel.app)
-[![Zero Dependencies](https://img.shields.io/badge/⚡_Zero_Dependencies-Pure_Vanilla_JS-d97706?style=for-the-badge&logo=javascript&logoColor=white)](#technical-architecture)
-[![License: MIT](https://img.shields.io/badge/📄_License-MIT-3b82f6?style=for-the-badge)](#license)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Experience_SayCarts-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://saycarts.vercel.app)
+[![PWA Installable](https://img.shields.io/badge/PWA-Installable_%26_Offline-059669?style=for-the-badge&logo=pwa&logoColor=white)](https://saycarts.vercel.app)
+[![Zero Dependencies](https://img.shields.io/badge/Zero_Dependencies-Pure_Vanilla_JS-d97706?style=for-the-badge&logo=javascript&logoColor=white)](#technical-architecture)
+[![License: MIT](https://img.shields.io/badge/License-MIT-3b82f6?style=for-the-badge)](#license)
 
 <p align="center">
-  <b>A next-generation, voice-operated multi-cart shopping operating system with dual-engine AI recommendations, offline Web Speech NLP, bidirectional TTS readback, and zero external runtime dependencies.</b>
+  <b>A voice-operated multi-cart shopping application with dual-engine recommendations, offline Web Speech NLP, bidirectional text-to-speech feedback, and zero external runtime dependencies.</b>
 </p>
 
-[✨ Live Vercel Demo](https://saycarts.vercel.app) • [🎤 Voice Commands](#voice-command-matrix) • [🏗️ Architecture](#technical-architecture) • [💡 Key Advantages](#why-saycarts-stands-out) • [⚡ Quick Start](#quick-start)
+[Live Demo](https://saycarts.vercel.app) • [Voice Commands](#voice-command-matrix) • [Technical Approach](#technical-approach) • [Architecture](#technical-architecture) • [Quick Start](#quick-start)
 
 ---
 
 </div>
 
 <a id="problem-statement"></a>
-## 🌟 Executive Summary & Problem Statement
+## Problem Statement
 
-Most shopping list applications are built around a flawed assumption: **that users maintain only a single, flat list.** 
+Most shopping list applications are built around a single flat list. In practice, users manage multiple shopping contexts at the same time: a weekly grocery run, wholesale purchases, party supplies, pharmacy items, and home essentials. Conventional applications create friction by requiring manual list switching, repetitive screen taps, and mixed-up items across categories.
 
-In reality, everyday consumers juggle multiple distinct shopping contexts simultaneously — a *Weekly Grocery Run*, a *Costco Wholesale Haul*, *Party Supplies*, *Pharmacy Needs*, and *Home Improvement*. Traditional apps create friction by forcing manual navigation, constant screen tapping, and cluttered, mixed-up lists.
-
-**SayCarts solves this with an intelligent Voice-First Multi-Cart OS.** It enables users to create, route items into, switch between, audit, and merge distinct carts entirely through natural spoken language — with **sub-50ms offline intent resolution**, contextual cross-cart routing, and bidirectional conversational audio feedback.
+SayCarts addresses this with a voice-first multi-cart workflow. Users can create, switch between, add items to specific background carts, audit, and merge lists through natural spoken language—with sub-50ms offline intent parsing, cross-cart routing, and spoken audio confirmation.
 
 ---
 
-<a id="why-saycarts-stands-out"></a>
-## 🏆 Why SayCarts Stands Out (Competitive Matrix)
+<a id="technical-approach"></a>
+## Technical Approach
 
-| Feature / Capability | Standard Shopping Lists (Keep, AnyList) | Smart Voice Assistants (Alexa, Siri) | 🛒 **SayCarts** |
-| :--- | :---: | :---: | :---: |
-| **Multi-Cart Architecture** | ❌ Single flat list or tedious sub-menus | ❌ Single generic list | ✅ **Unlimited isolated carts with custom color & emoji tags** |
-| **Voice Cross-Cart Routing** | ❌ No voice routing | ❌ Can only add to default list | ✅ **`"Add 2L milk to Costco cart"` (auto-routes directly)** |
-| **Voice Cart Merging** | ❌ Manual re-entry | ❌ Unsupported | ✅ **`"Merge Party into Weekly"` (atomic batch combine)** |
-| **Bidirectional TTS Readback** | ❌ Visual only | ⚠️ Verbose / slow cloud roundtrip | ✅ **`"Read my cart"` / `"Mera saman batao"` (instant local speech)** |
-| **Client-Side Latency** | N/A | 800ms – 2500ms (Cloud roundtrip) | ✅ **< 50ms (Deterministic priority regex tokenizer)** |
-| **Smart AI Suggestions** | ❌ None or static ads | ❌ Generic purchase history | ✅ **Dual Engine: Offline co-occurrence graph + Gemini AI** |
-| **Indian Market SKU Catalog** | ❌ None | ❌ Generic search | ✅ **100+ realistic items with INR (₹) prices, brands & ratings** |
-| **Offline & Privacy First** | ⚠️ Partial / Cloud sync required | ❌ Requires constant cloud connection | ✅ **100% Offline PWA (Service Worker + LocalStorage)** |
-| **Zero-Setup Evaluation** | ❌ Requires server / DB config | ❌ Requires hardware / API keys | ✅ **Zero build step, pure vanilla web standards** |
+To address the limitations of conventional single-list shopping tools, SayCarts was designed with a client-first, zero-overhead architecture focused on responsiveness, modularity, and natural interaction.
+
+1. **Deterministic Voice & NLP Pipeline**: Rather than relying on cloud-based speech APIs for simple commands, the application uses the browser's native Web Speech API coupled with a prioritized regex entity parser. This enables sub-50ms extraction of quantities, colloquial counts (such as "half dozen" or "a couple"), measurement units, target cart designations, and compound multi-item statements entirely on-device.
+
+2. **Isolated Multi-Cart State Machine**: Cart state is managed through an immutable, event-driven pattern in vanilla JavaScript. Each cart functions as an independent workspace with its own item collections, completion telemetry, and metadata, while supporting atomic cross-cart actions like targeted voice routing and list merging. A 30-step snapshot stack provides reliable undo/redo capabilities.
+
+3. **Hybrid Recommendation Strategy**: Recommendations follow a two-tier model: an instant offline co-occurrence knowledge graph for common pairings and seasonal suggestions, supplemented by an optional client-side Google Gemini Flash integration for complex contextual recipe planning.
+
+4. **Zero-Dependency Native Stack**: Built entirely on native web standards (ES6+ modules, CSS custom properties, Web Audio API oscillator synthesis, and Service Worker caching), the application runs offline as an installable PWA with zero build tooling or third-party runtime libraries.
+
+---
+
+<a id="comparison"></a>
+## Key Capabilities & Comparison
+
+| Feature / Capability | Standard Shopping Lists | Smart Assistants (Alexa, Siri) | SayCarts |
+| :--- | :--- | :--- | :--- |
+| **Multi-Cart Architecture** | Single list or sub-menus | Single default list | Multiple isolated carts with custom color themes |
+| **Voice Cross-Cart Routing** | Not supported | Adds only to default list | Direct routing: `"Add 2L milk to Costco cart"` |
+| **Voice Cart Merging** | Manual copy/re-entry | Not supported | Voice-driven combine: `"Merge Party into Weekly"` |
+| **Bidirectional TTS Readback** | Visual only | Slow cloud response | Instant local speech synthesis (`"Read my cart"`) |
+| **Parsing Latency** | N/A | 800ms – 2500ms (Cloud roundtrip) | < 50ms (Deterministic priority regex tokenizer) |
+| **Smart Suggestions** | Static or none | Purchase history only | Dual Engine: Offline graph + Gemini AI |
+| **Local Market Product Catalog** | Generic search | Generic search | 100+ realistic items with INR prices, brands, and ratings |
+| **Offline & Privacy First** | Partial sync required | Cloud connection required | 100% Offline PWA (Service Worker + LocalStorage) |
+| **Build & Setup Complexity** | Framework dependencies | Hardware / skill setup | Zero build step, vanilla web standards |
 
 ---
 
 <a id="features"></a>
-## 🚀 Key Architectural & Product Features
+## Core Features & Architecture
 
-### 🎙️ 1. Zero-Latency Natural Language Voice Pipeline
-* **20+ Intent Classifiers**: Handles flexible natural conversational phrases (`"I need"`, `"Please add"`, `"Grab me"`, `"Pick up"`, `"Don't forget"`, `"Chahiye"`, `"Daal do"`).
-* **Multi-Item Batch Voice Extraction**: Spoken compound sentences like `"Add milk, 2 dozen eggs and a loaf of bread"` are parsed and split into distinct catalog-mapped items in a single pass.
-* **Numeral & Unit Normalization Engine**: Converts colloquial numbers (`"a dozen"` $\rightarrow$ 12, `"half dozen"` $\rightarrow$ 6, `"a couple"` $\rightarrow$ 2) and standardizes 30+ units (`bottles`, `litres`, `kg`, `packs`, `loaves`, `cans`).
-* **Bidirectional Speech Feedback (TTS)**: Built-in Web Speech Synthesis speaks back cart summaries and item counts in English and Hindi (`"You have 4 items remaining in Weekly Groceries..."`).
-* **Multilingual Recognition Support**: 8 global languages (English, Hindi, Spanish, French, German, Mandarin, Portuguese, Arabic).
+### 1. Zero-Latency Natural Language Voice Pipeline
+* **Intent Classification**: Handles conversational phrases such as `"I need"`, `"Please add"`, `"Pick up"`, `"Don't forget"`, as well as Hindi phrasing like `"Chahiye"` and `"Daal do"`.
+* **Multi-Item Batch Voice Extraction**: Spoken compound sentences like `"Add milk, 2 dozen eggs and a loaf of bread"` are parsed and split into distinct catalog items in a single pass.
+* **Numeral and Unit Normalization**: Converts spoken counts (`"a dozen"` to 12, `"half dozen"` to 6, `"a couple"` to 2) and standardizes units (`litres`, `kg`, `packs`, `bottles`, `cans`).
+* **Bidirectional Speech Feedback (TTS)**: Built-in Web Speech Synthesis speaks back cart summaries and item counts in English and Hindi.
+* **Multilingual Recognition**: Supports recognition across 8 languages including English, Hindi, Spanish, French, German, Mandarin, Portuguese, and Arabic.
 
-### 🗂️ 2. Multi-Cart State Machine & Cross-Cart Routing
-* **Contextual Voice Routing**: Route items into background carts without switching active view (`"Add diapers to Pharmacy list"`).
+### 2. Multi-Cart State Machine & Cross-Cart Routing
+* **Contextual Voice Routing**: Route items into background carts without switching active views (`"Add diapers to Pharmacy list"`).
 * **Voice Cart Operations**: Voice-create (`"New cart Diwali Party"`), voice-switch (`"Switch to Costco"`), voice-clear (`"Clear the cart"`), and voice-merge (`"Merge Weekend into Weekly"`).
-* **Deterministic 30-Step Time Travel (Undo/Redo)**: Full action snapshot history stack accessible via voice (`"Undo that"`) or keyboard (`Ctrl+Z`).
-* **Cart Progress & Budget Telemetry**: Real-time completion progress tracking, item counter, and total price calculation in INR (₹).
+* **Deterministic Undo/Redo**: Action snapshot history stack accessible via voice (`"Undo that"`) or keyboard (`Ctrl+Z`).
+* **Cart Progress & Budget Telemetry**: Real-time completion progress tracking, item counters, and total price calculation in INR.
 
-### 🧠 3. Dual-Engine Hybrid Recommendation Engine
+### 3. Dual-Engine Hybrid Recommendation System
 ```
                                 ┌────────────────────────────────────────┐
                                 │          User Cart Contents            │
@@ -72,70 +85,70 @@ In reality, everyday consumers juggle multiple distinct shopping contexts simult
         ┌──────────────────────────────────┐                 ┌──────────────────────────────────┐
         │     Engine A: Offline Matrix     │                 │     Engine B: Generative AI      │
         ├──────────────────────────────────┤                 ├──────────────────────────────────┤
-        │ • Co-Occurrence Knowledge Graph  │                 │ • Google Gemini Flash 2.0 API    │
+        │ • Co-Occurrence Knowledge Graph  │                 │ • Google Gemini Flash API        │
         │ • 12-Month Seasonal Matrix       │                 │ • Contextual Recipe Completion   │
         │ • Dietary / Substitute Resolver   │                 │ • Zero-Config Cloud Fallback     │
         └──────────────────────────────────┘                 └──────────────────────────────────┘
 ```
-1. **Offline Graph Engine**: 
-   * **Frequently Bought Together**: Association rule mapping (e.g., Pasta $\rightarrow$ Pasta Sauce, Parmesan, Garlic).
-   * **Dietary Substitutes**: Instant 1-click alternatives for dairy-free, gluten-free, vegan, and budget choices.
-   * **12-Month Seasonal Matrix**: Dynamically serves season-specific essentials based on active calendar month.
+1. **Offline Graph Engine**:
+   * **Frequently Bought Together**: Association rule mapping (e.g., Pasta maps to Pasta Sauce, Cheese, and Garlic).
+   * **Dietary Substitutes**: Alternative options for dairy-free, gluten-free, vegan, and budget choices.
+   * **Seasonal Matrix**: Serves season-specific essentials based on the active calendar month.
 2. **Generative AI Hook (Google Gemini Flash)**:
-   * Direct, secure client-side API bridge to analyze complex carts and recommend intelligent companion ingredients with zero backend proxy requirements.
+   * Direct, secure client-side API bridge to analyze cart contents and recommend companion ingredients with no backend server required.
 
-### 🏪 4. Realistic 100+ Product Catalog (Indian Market Edition)
-* Built-in rich grocery database with verified Indian brands (**Amul, Tata Sampann, Aashirvaad, Everest, MDH, Dabur, Fortune, Eggoz**).
-* Full metadata schema: Product Name, Brand, Pack Size, Price in INR (₹), Star Ratings, Review Count, Emojis, and Search Tags.
-* Interactive **Browse Products** view with category filtering, real-time search, and 1-tap cart addition.
+### 4. Curated Product Catalog
+* Grocery catalog with verified Indian brands (Amul, Tata Sampann, Aashirvaad, Everest, MDH, Dabur, Fortune, Eggoz).
+* Complete metadata schema: Product Name, Brand, Pack Size, Price in INR, Star Ratings, Review Count, and Search Tags.
+* Interactive product browser with category filtering, real-time search, and one-tap cart addition.
 
-### 🎨 5. Premium UI/UX & Sensory Design
-* **Glassmorphism Design System**: Built with modern CSS custom variables, ambient lighting glows, responsive typography (`Plus Jakarta Sans` & `Outfit`), and smooth micro-transitions.
-* **Web Audio API Synthesizer**: Micro-acoustic feedback cues generated programmatically via Web Audio oscillators for mic engagement, item addition, item completion chimes, and deletion sounds (no external MP3 dependencies).
-* **Live Voice Waveform Visualizer**: Real-time canvas/CSS audio reactive animations signaling listening, processing, and idle states.
-* **1-Click Share & Export**: Instant export to clipboard, plain text, and WhatsApp-friendly grocery checklist formatting.
+### 5. Responsive UI and Audio Feedback
+* **Design System**: Built with CSS custom properties, responsive typography (Plus Jakarta Sans and Outfit), and micro-transitions.
+* **Web Audio API Synthesizer**: Programmatic audio cues generated via Web Audio oscillators for microphone toggle, item addition, item completion, and deletion (zero external audio file dependencies).
+* **Voice Waveform Indicator**: Real-time visual feedback for listening, processing, and idle states.
+* **Export and Sharing**: Instant export to clipboard, plain text, and WhatsApp-formatted grocery checklists.
 
 ---
 
 <a id="voice-command-matrix"></a>
-## 🎤 Voice Command Matrix
+## Voice Command Matrix
 
-| Spoken Voice Command | Intent Classification | Engine Action Executed |
+| Spoken Voice Command | Intent Classification | Action Executed |
 | :--- | :--- | :--- |
-| `"Add 2 litres of toned milk"` | `ADD_ITEM` | Parses quantity `2`, unit `litre`, queries catalog, and adds to active cart |
+| `"Add 2 litres of toned milk"` | `ADD_ITEM` | Parses quantity `2`, unit `litre`, matches catalog, and adds to active cart |
 | `"Add 10kg atta to Costco cart"` | `ADD_TO_CART` | Routes item into `Costco` cart without leaving current screen |
 | `"I need a dozen eggs and bread"` | `ADD_ITEM` (Batch) | Splits into `12 eggs` and `1 bread`, adding both atomically |
 | `"Read my cart"` / `"Mera saman batao"` | `READ_CART` | Synthesizes voice readback of remaining unchecked items |
-| `"Check milk"` / `"I bought eggs"` | `CHECK_ITEM` | Marks item as checked off with progress bar update |
+| `"Check milk"` / `"I bought eggs"` | `CHECK_ITEM` | Marks item as completed with progress bar update |
 | `"Remove organic apples"` | `REMOVE_ITEM` | Fuzzy-matches item and removes it with audio feedback |
-| `"Create cart Birthday Party"` | `CREATE_CART` | Instantiates new cart with auto-assigned palette color & emoji |
+| `"Create cart Birthday Party"` | `CREATE_CART` | Creates a new cart with an auto-assigned color theme |
 | `"Switch to Costco"` | `SWITCH_CART` | Switches active workspace to Costco cart |
-| `"Merge Party into Weekly"` | `MERGE_CARTS` | Merges all items from Party into Weekly, deduplicating quantities |
+| `"Merge Party into Weekly"` | `MERGE_CARTS` | Merges all items from Party into Weekly, combining quantities |
 | `"Find basmati rice"` | `SEARCH` | Filters active catalog and highlights matching product cards |
 | `"Undo"` / `"Never mind"` | `UNDO` | Reverts last state mutation from the 30-step history stack |
 
-> 💡 **Pro-Tip:** You can also use keyboard shortcuts: `Spacebar` to toggle the microphone on/off, and `Ctrl + Z` to undo any action.
+**Keyboard Shortcuts**: `Spacebar` toggles the microphone on and off, and `Ctrl + Z` undoes the last action.
 
 ---
 
 <a id="technical-architecture"></a>
-## 🏗️ Technical Architecture & File Directory
+## Technical Architecture & File Directory
 
-SayCarts is intentionally architected with **Zero Framework Overhead** (Pure HTML5, CSS3, and ES6+ JavaScript). This guarantees instant load times, zero compilation lag, and effortless code review for recruiters and evaluators.
+SayCarts is built using vanilla web technologies (HTML5, CSS3, and ES6+ JavaScript) to ensure rapid load times, zero compilation overhead, and clear code maintainability.
 
 ```
 saycarts/
-├── index.html            # Semantic HTML5 app shell, ARIA accessibility landmarks & modals
-├── style.css             # Glassmorphic CSS design system with custom properties & responsive layout
-├── voice.js              # Web Speech API wrapper, audio state machine & 20+ NLP intent parsers
-├── app.js                # Multi-cart state management, undo/redo stack, persistence & audio synth
-├── ui.js                 # Reactive DOM rendering engine, modal controller & visualizer
-├── products.js           # 100+ item curated Indian market product database with pricing & metadata
-├── categories.js         # 500+ item semantic keyword-to-category taxonomy mapping engine
-├── suggestions.js        # Dual-engine recommendation matrix (Offline Graph + Gemini AI API)
-├── sw.js                 # PWA Service Worker implementing stale-while-revalidate offline caching
-├── manifest.json         # Web App Manifest for mobile/desktop native installation
-└── icons/                # High-res PWA application icon assets
+├── index.html            # Semantic HTML5 app shell, ARIA accessibility landmarks, and modals
+├── style.css             # CSS design system with custom properties and responsive layout
+├── voice.js              # Web Speech API wrapper, audio state management, and NLP intent parsers
+├── app.js                # Multi-cart state management, undo/redo stack, persistence, and audio synth
+├── ui.js                 # DOM rendering engine, modal controller, and visualizer
+├── products.js           # Curated product catalog with pricing and metadata
+├── categories.js         # Semantic keyword-to-category taxonomy mapping
+├── suggestions.js        # Recommendation system (Offline Graph + Gemini AI API)
+├── sw.js                 # PWA Service Worker implementing offline caching
+├── manifest.json         # Web App Manifest for mobile and desktop installation
+└── icons/                # PWA application icons
 ```
 
 ### Data Flow Pipeline
@@ -159,16 +172,16 @@ graph TD
 ---
 
 <a id="quick-start"></a>
-## ⚡ Quick Start & Deployment Guide
+## Quick Start & Deployment Guide
 
-### Option 1: Live Production Web App (Vercel)
-Access the live deployment immediately:
-👉 **[https://saycarts.vercel.app](https://saycarts.vercel.app)**
+### Option 1: Live Production Deployment (Vercel)
+Access the live deployment:
+**[https://saycarts.vercel.app](https://saycarts.vercel.app)**
 
 *(Backup Mirror: [https://tanyachandrakar27.github.io/saycarts/](https://tanyachandrakar27.github.io/saycarts/))*
 
-### Option 2: Run Locally in 5 Seconds (No npm install required)
-Since SayCarts uses native Web Standards, you don't need `node_modules` or build tools:
+### Option 2: Local Setup (No npm install required)
+Since SayCarts uses native Web APIs, no package installation or build steps are required:
 
 ```bash
 # Clone the repository
@@ -177,7 +190,7 @@ git clone https://github.com/TanyaChandrakar27/saycarts.git
 # Navigate into the project folder
 cd saycarts
 
-# Launch with any lightweight static server:
+# Launch with a lightweight static server:
 # Using Python:
 python -m http.server 8080
 
@@ -187,43 +200,43 @@ npx serve .
 # Open http://localhost:8080 in Google Chrome or Microsoft Edge
 ```
 
-*(Note: Web Speech API requires serving via `http://localhost` or `https://` due to browser microphone security requirements).*
+*(Note: The Web Speech API requires serving via `http://localhost` or `https://` due to browser microphone permission policies).*
 
 ---
 
 <a id="gemini-ai"></a>
-## ⚙️ Enabling Optional Generative AI (Gemini Flash)
+## Optional Generative AI Setup (Gemini Flash)
 
-SayCarts works 100% out-of-the-box using its built-in offline intelligence graph. If you want to enable deep generative suggestions:
+SayCarts functions out-of-the-box using its built-in offline recommendation graph. To enable generative AI suggestions:
 
-1. Obtain a free API key from [Google AI Studio](https://aistudio.google.com/).
-2. In SayCarts, click the **⚙️ Settings** icon in the header.
-3. Paste your Gemini API key and click **Save Settings**.
-4. The suggestions panel will now augment its offline graph with live Gemini AI contextual intelligence!
+1. Obtain an API key from [Google AI Studio](https://aistudio.google.com/).
+2. In SayCarts, open the **Settings** modal in the header.
+3. Enter your Gemini API key and select **Save Settings**.
+4. The suggestions panel will now augment its offline recommendations with contextual AI suggestions.
 
 ---
 
 <a id="benchmarks"></a>
-## 🔒 Privacy & Performance Benchmarks
+## Privacy & Performance
 
-* **Zero Tracking**: 100% client-side execution. Your shopping lists and voice audio are never sent to a private storage server.
-* **Storage Footprint**: State payload is compact JSON (< 50 KB) managed cleanly via `localStorage`.
-* **Lighthouse PWA Score**: 100% Progressive Web App compliant — installable on iOS, Android, macOS, and Windows.
-* **Audio Efficiency**: All sound effects are synthesized mathematically in real time using the browser's native `AudioContext` (0 KB network payload).
+* **Zero Tracking**: 100% client-side execution. Shopping lists and voice transcripts are not sent to any private storage backend.
+* **Storage Footprint**: State payload is compact JSON (< 50 KB) managed via `localStorage`.
+* **Progressive Web App**: 100% PWA compliant and installable across desktop and mobile browsers.
+* **Audio Efficiency**: All acoustic feedback is generated dynamically using the browser's native `AudioContext` with zero audio asset downloads.
 
 ---
 
 <a id="author"></a>
-## 👩‍💻 Author & Project Context
+## Author & Project Context
 
-Developed with passion by **Tanya Chandrakar** for the **Unthinkable Voice Command Project Challenge**.
+Developed by **Tanya Chandrakar** for the **Unthinkable Voice Command Project Challenge**.
 
 * **Live Demo (Vercel):** [https://saycarts.vercel.app](https://saycarts.vercel.app)
-* **GitHub Repo:** [https://github.com/TanyaChandrakar27/saycarts](https://github.com/TanyaChandrakar27/saycarts)
+* **GitHub Repository:** [https://github.com/TanyaChandrakar27/saycarts](https://github.com/TanyaChandrakar27/saycarts)
 
 ---
 
 <a id="license"></a>
-## 📄 License
+## License
 
 This project is open-source and available under the [MIT License](LICENSE).
